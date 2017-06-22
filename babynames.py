@@ -84,7 +84,7 @@ def main():
       d=extract_names(filename)     
       for x in d:
         d1=d1+x+'\n'
-      f=open("summary"+filename,"w")
+      f=open("summary"+filename+".txt","w")
       f.write(d1)
       f.close()
   else:
