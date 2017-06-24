@@ -43,56 +43,44 @@ columns, so the output looks better.
 
 import random
 import sys
+filename=sys.argv[1]
 def filelist(filename):
   f=open(filename,'r')
   k=f.read().split()
-  d=[]
-  for x in k:
-    d.append(x.lower())
-  return d
+  return k
 def list1(x,filename):
   d=filelist(filename)
   l=[]
-  for i in range(len(d)):
-    if i>0 and d[i]==x:
-      l.append(d[i-1])
+  for i in range(len(d)-1):
+    if i!=len(d)-1 and d[i]==x:
+      l.append(d[i+1])
+    elif i==len(d)-1 and l==[]:
+      l.append(d[0])
+  
   return l 
-def mimic_dict(filename):
+def mimic_dict(fname):
   """Returns mimic dict mapping each word to list of words which follow it."""
   # +++your code here+++
   dic={}
-  f=filelist(filename)
+  f=filelist(fname)
+  dic[""]=[f[0]]
   for x in f:
-    dic[x]=list1(x,filename)
+    dic[x]=list1(x,fname)
   return dic
-
 
 def print_mimic(mimic_dict, word):
   """Given mimic dict and start word, prints 200 random words."""
   # +++your code here+++
-  if word=='':
-    wrl=[]
-  d=""
-  for x in mimic_dict.keys():
-    if mimic_dict[x]==wrl:
-      d=d+x
-      d1=x
-      break
-  k=d
-  a=1
-  while a<=200:
-      x=random.choice(mimic_dict.keys())
-      if len(mimic_dict[x])!=0:
-        rand=random.choice(mimic_dict[x])
-      else:
-        rand=x
-      k=k+" "+rand
-      d1=x  
-      a=a+1
-     
-  print k
-        
-    
+  
+  a=""
+  fname=filelist(filename)
+  for x in mimic_dict:
+     if word==x:
+        a=a+mimic_dict[x][0]
+  for x in fname:
+     if len(mimic_dict[x])!=0:
+       a=a+" "+random.choice(mimic_dict[x])
+  print a
   return
 
 
@@ -101,8 +89,8 @@ def main():
   if len(sys.argv) != 2:
     print 'usage: ./mimic.py file-to-read'
     sys.exit(1)
-
-  dic = mimic_dict(sys.argv[1])
+  f= filelist(filename)
+  dic = mimic_dict(filename)
   print_mimic(dic, '')
 
 
